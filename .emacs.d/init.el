@@ -14,8 +14,7 @@
 ;; TODO (Left for the reader ;)
 
 ;; - Switch from ido to Ivy or Helm for more consistent completion
-;; - Add a few more conveniences (multiple-cursors, hungry-delete,
-;;   expand-region)
+;; - Add a few more conveniences (multiple-cursors, hungry-delete)
 
 ;;; Code:
 
@@ -183,6 +182,11 @@
   :ensure t
   :bind (("C-c SPC" . ace-jump-mode)
          ("C-c C-0" . ace-jump-mode)))
+
+;; expand-region
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
 
 ;; Auto refresh buffers and dired, and be quiet about it
 (global-auto-revert-mode 1)
