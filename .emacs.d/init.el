@@ -173,6 +173,17 @@
                 save-place-file (expand-file-name ".places"
                                                   user-emacs-directory)))
 
+;; Enable tail mode for logs
+(use-package autorevert
+  :diminish auto-revert-mode
+  :mode (("\\.log\\'" . auto-revert-tail-mode)))
+
+;; Ace Jump mode
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-c SPC" . ace-jump-mode)
+         ("C-c C-0" . ace-jump-mode)))
+
 ;; Auto refresh buffers and dired, and be quiet about it
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t
