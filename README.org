@@ -398,11 +398,11 @@ git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
 Using [[https://github.com/junegunn/vim-plug][vim-plug]]:
 
-#+BEGIN_QUOTE
+#+BEGIN_EXAMPLE
 Plug 'pangloss/vim-javascript'
 Plug 'ternjs/tern_for_vim'
 Plug 'moll/vim-node'
-#+END_QUOTE
+#+END_EXAMPLE
 
 - Add sensible.vim, UltiSnips, delimitMate, Unite (or fzf), etc.
 
