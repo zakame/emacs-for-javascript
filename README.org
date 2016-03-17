@@ -406,6 +406,16 @@ Plug 'moll/vim-node'
 
 - Add sensible.vim, UltiSnips, delimitMate, Unite (or fzf), etc.
 
+* And, because MS <3 JS
+
+I only learned of TypeScript just now (lolwut) but fortunately there's
+*already* an Emacs environment for it:
+
+https://github.com/ananthakumaran/tide
+
+
+Go bonkers! :D
+
 * More information
 
 - Zakame's [[https://github.com/zakame/.emacs.d][~/.emacs.d]] and [[https://github.com/zakame/.vim][~/.vim]] configurations
