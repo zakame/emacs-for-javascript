@@ -1,0 +1,17 @@
+/.config
+/.emacs.d/.places
+/.emacs.d/ac-comphist.dat
+/.emacs.d/backups/
+/.emacs.d/elpa/
+/.emacs.d/emojis/
+/.emacs.d/eshell/
+/.emacs.d/projectile-bookmarks.eld
+/.emacs.d/recentf
+/.emacs.d/smex-items
+/.esd_auth
+/.gnupg
+/.local
+/.mplayer
+/.zshrc
+/README.el
+/.emacs.d/auto-save-list/

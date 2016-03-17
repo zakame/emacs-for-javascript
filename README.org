@@ -1,0 +1,421 @@
+#+TITLE: Emacs for JavaScript
+#+AUTHOR: Zak B. Elep <zakame@zakame.net>
+
+[[https://github.com/zakame/emacs-for-javascript]]
+
+* About Me
+
+- @zakame in GitHub, Twitter, FB
+- Co-Founder, Chief Architect, YOYO Holdings
+- Recovering Sysadmin
+- Hacks on Perl, Docker, Emacs, Android
+
+Gave a talk last time on [[https://github.com/zakame/knockout-1punch-talk][KnockoutJS with One-Punch Man]] :punch:
+
+* What's this for?
+
+Blame this [[https://www.facebook.com/events/765455226922029/permalink/771885296279022/?ref=1&action_history=null][post in Facebook]]:
+
+#+BEGIN_QUOTE
+If there is a talk I want to here(sic) badly it would involve two things:
+
+=Javascript= and =Emacs=.
+#+END_QUOTE
+
+So, I'll be showing off a setup for writing JS with Emacs :notebook:
+
+I'll try to cover Vim though :+1:
+
+* Try this out!
+
+This doc is on GitHub!
+
+This is also an Emacs init file! :peace:
+
+#+BEGIN_SRC sh
+# clone to somewhere
+git clone https://github.com/zakame/emacs-for-javascript.git
+
+# run Emacs using this repo as a fake $HOME
+HOME=./emacs-for-javascript /usr/bin/emacs
+#+END_SRC
+
+* JavaScript
+
+- Very C/Java like, from syntax perspective
+- Good tooling for writing, error checking and beautifying
+- Started on the browser, now on the server
+- So /functional/!
+
+* Emacs
+
+- =An OS masquerading as a text editor=
+   + Probably one of the most portable OS ever
+   + Good tooling/API to invoke external resources
+- Made with [[http://lispers.org][Secret Alien Technology]] (plus a bit of Human C)
+- So very /functional/!
+
+* Org Mode
+
+This document is written with it! :+1:
+
+- [[https://github.com/rlister/org-present][org-present]] let's me present this as slides!
+- [[http://orgmode.org/worg/org-contrib/babel/][Babel]] lets me embed code in Org documents!
+
+#+BEGIN_SRC js :results output
+var os = require('os');
+console.log(os.platform());
+#+END_SRC
+
+#+RESULTS:
+: linux
+
+- Great for [[https://github.com/limist/literate-programming-examples][Literate Programming]]!
+  + Bonus: [[http://www.howardism.org/Technical/Emacs/literate-devops.html][Literate DevOps]]!
+
+* Magit
+
+The best porcelain for git! [[http://magit.vc]] :ok_hand:
+
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :ensure t
+  :bind (("C-c g" . magit-status)
+         ("M-g b" . magit-blame)
+         :map magit-mode-map
+         ("v" . endless/visit-pull-request-url)
+         :map magit-status-mode-map
+         ("q" . zakame/magit-quit-session))
+  :init
+  (setq magit-last-seen-setup-instructions "2.1.0")
+  (setq magit-push-always-verify nil)
+  :config
+  (defun endless/visit-pull-request-url ()
+    "Visit the current branch's PR on Github."
+    (interactive)
+    (browse-url
+     (format "https://github.com/%s/compare/%s"
+             (replace-regexp-in-string
+              "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+              (magit-get "remote"
+                         (magit-get-upstream-remote)
+                         "url"))
+             (magit-get-current-branch))))
+  (defun endless/add-PR-fetch ()
+    "If refs/pull is not defined on a GH repo, define it."
+    (let ((fetch-address
+           "+refs/pull/*/head:refs/pull/origin/*")
+          (magit-remotes
+           (magit-get-all "remote" "origin" "fetch")))
+      (unless (or (not magit-remotes)
+                 (member fetch-address magit-remotes))
+        (when (string-match
+               "github" (magit-get "remote" "origin" "url"))
+          (magit-git-string
+           "config" "--add" "remote.origin.fetch"
+           fetch-address)))))
+  (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defun zakame/magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer."
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen)))
+#+END_SRC
+
+* Emacs + JS
+
+** js2-mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode
+  :ensure t
+  :interpreter (("node" . js2-mode))
+  :mode "\\.\\(js\\|json\\)$"
+  :config
+  (add-hook 'js-mode-hook 'js2-minor-mode)
+  (setq js2-highlight-level 3
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil))
+#+END_SRC
+
+** js2-refactor
+
+#+BEGIN_SRC emacs-lisp
+(use-package js2-refactor
+  :defer t
+  :diminish js2-refactor-mode
+  :commands js2-refactor-mode
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
+  :config
+  (js2r-add-keybindings-with-prefix "C-c C-m"))
+#+END_SRC
+
+** auto-complete and ac-js2
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-complete
+  :diminish auto-complete-mode
+  :ensure t
+  :config
+  (use-package auto-complete-config)
+  (ac-config-default)
+  (add-to-list 'ac-modes 'html-mode)
+  (setq ac-use-menu-map t)
+  (ac-set-trigger-key "TAB")
+  (ac-set-trigger-key "<tab>"))
+
+(use-package ac-js2
+  :defer t
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook 'ac-js2-mode)
+  (setq ac-js2-evaluate-calls t))
+#+END_SRC
+
+** json-snatcher
+
+#+BEGIN_SRC emacs-lisp
+(use-package json-snatcher
+  :ensure t
+  :after js2-mode
+  :bind (:map js2-mode-map
+              ("C-c C-g" . jsons-print-path)))
+#+END_SRC
+
+** web-beautify
+
+#+BEGIN_SRC emacs-lisp
+;; also do `npm install -g js-beautify' in your shell
+(use-package web-beautify
+  :after js2-mode
+  :ensure t
+  :bind (:map js2-mode-map
+              ("C-c C-b" . web-beautify-js)))
+#+END_SRC
+
+** tern (with auto-complete)
+
+#+BEGIN_SRC emacs-lisp
+(use-package tern
+  :defer t
+  :diminish tern-mode
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook 'tern-mode))
+
+;; auto-completion for Tern
+(use-package tern-auto-complete
+  :ensure t
+  :after tern
+  :config
+  (tern-ac-setup))
+#+END_SRC
+
+** skewer-mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package skewer-mode
+  :bind (("C-c K" . run-skewer))
+  :diminish skewer-mode
+  :ensure t
+  :init
+  (add-hook 'js2-mode-hook 'skewer-mode)
+  (add-hook 'css-mode-hook 'skewer-css-mode)
+  (add-hook 'html-mode-hook 'skewer-html-mode))
+#+END_SRC
+
+* Other Emacs packages
+
+** yasnippet
+
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :ensure t
+  :init
+  (setq yas-verbosity 3)
+  :config
+  (yas-global-mode 1)
+  (push 'yas-hippie-try-expand hippie-expand-try-functions-list)
+  (add-hook 'term-mode-hook (lambda () (yas-minor-mode -1))))
+#+END_SRC
+
+** web-mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package web-mode
+  :ensure t
+  :mode "\\.html?\\'"
+  :init
+  (dolist (hook '(emmet-mode ac-emmet-html-setup ac-emmet-css-setup))
+    (add-hook 'web-mode-hook hook))
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-enable-auto-pairing nil
+        web-mode-enable-auto-closing t
+        web-mode-enable-current-element-highlight t
+        web-mode-enable-current-column-highlight t
+        web-mode-ac-sources-alist
+        '(("css" . (ac-source-css-property ac-source-emmet-css-snippets))
+          ("html" . (ac-source-emmet-html-aliases
+                     ac-source-emmet-html-snippets))))
+  (add-hook 'web-mode-before-auto-complete-hooks
+            '(lambda ()
+               (let ((web-mode-cur-language (web-mode-language-at-pos)))
+                 (if (string= web-mode-cur-language "css")
+                     (setq emmet-use-css-transform t)
+                   (setq emmet-use-css-transform nil)))))
+  (defun zakame/sp-web-mode-code-context-p (id action context)
+    "Set smartparens context when in web-mode."
+    (and (eq action 'insert)
+         (not (or (get-text-property (point) 'part-side)
+                  (get-text-property (point) 'block-side)))))
+  (sp-local-pair 'web-mode "<" nil :when '(zakame/sp-web-mode-code-context-p)))
+#+END_SRC
+
+** react-snippets, angular-mode + angular-snippets
+
+#+BEGIN_SRC emacs-lisp
+(use-package react-snippets
+  :ensure t)
+
+(use-package angular-mode
+  :ensure t
+  :config
+  (mapc (lambda (mode)
+          (add-to-list 'ac-modes mode))
+        '(angular-mode angular-html-mode)))
+
+(use-package angular-snippets
+  :ensure t
+  :config
+  (eval-after-load "web-mode"
+    '(bind-key "C-c C-d" 'ng-snip-show-docs-at-point web-mode-map)))
+#+END_SRC
+
+#+RESULTS:
+
+** projectile
+
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :diminish projectile-mode
+  :ensure t
+  :config
+  (projectile-global-mode))
+#+END_SRC
+
+** flycheck
+
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :diminish flycheck-mode
+  :ensure t
+  :init
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+#+END_SRC
+
+** smartparens
+
+#+BEGIN_SRC emacs-lisp
+(use-package smartparens
+  :diminish smartparens-mode
+  :ensure t
+  :config
+  (use-package smartparens-config)
+  (smartparens-global-mode 1))
+#+END_SRC
+
+** emmet-mode (with auto-complete)
+
+#+BEGIN_SRC emacs-lisp
+(use-package emmet-mode
+  :diminish emmet-mode
+  :ensure t
+  :init
+  (dolist (hook '(sgml-mode-hook css-mode-hook kolon-mode-hook))
+    (add-hook hook 'emmet-mode)))
+
+;; AutoComplete for emmet
+(use-package ac-emmet
+  :ensure t
+  :commands (ac-emmet-html-setup ac-emmet-css-setup)
+  :init
+  (add-hook 'sgml-mode-hook 'ac-emmet-html-setup)
+  (add-hook 'css-mode-hook 'ac-emmet-css-setup))
+#+END_SRC
+
+** jade-mode, scss-mode, sass-mode
+
+#+BEGIN_SRC emacs-lisp
+(mapc (lambda (mode)
+        (if (package-installed-p mode)
+            t
+          (if (assoc mode package-archive-contents)
+              (package-install mode)
+            (progn
+              (package-refresh-contents)
+              (package-install mode)))))
+      '(jade-mode scss-mode sass-mode))
+#+END_SRC
+
+* Even more Emacs goodness
+
+Be sure to check out the [[./.emacs.d/init.el]] for more!
+
+- use-package
+- Ido (lightweight item selection framework)
+- Recentf
+- undo-tree
+- Eshell
+
+Also, emacs-fireplace :fire: and nyan-mode :cat:
+
+TODO:
+
+- [[https://github.com/emacs-helm/helm][Helm]] (replacing Ido, basically a new Emacs UI)
+- [[https://github.com/swank-js/swank-js][Swank]] backend for Node.JS and in-browser JS (replacing skewer-mode)
+
+* Quick and Clean Emacs Setup
+
+- Use [[https://github.com/syl20bnr/spacemacs][spacemacs]]!
+
+#+BEGIN_SRC sh
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+#+END_SRC
+
+- Install the [[https://github.com/syl20bnr/spacemacs/tree/master/layers/%252Blang/javascript][JavaScript configuration layer]]
+
+* For the Vimpostors (Like me)
+
+Using [[https://github.com/junegunn/vim-plug][vim-plug]]:
+
+#+BEGIN_QUOTE
+Plug 'pangloss/vim-javascript'
+Plug 'ternjs/tern_for_vim'
+Plug 'moll/vim-node'
+#+END_QUOTE
+
+- Add sensible.vim, UltiSnips, delimitMate, Unite (or fzf), etc.
+
+* More information
+
+- Zakame's [[https://github.com/zakame/.emacs.d][~/.emacs.d]] and [[https://github.com/zakame/.vim][~/.vim]] configurations
+- [[https://github.com/azer/emacs][azer's JavaScript and Go setup for Emacs]]
+- [[https://truongtx.me/2014/02/23/set-up-javascript-development-environment-in-emacs][Trần Xuân Trường's blog on JS and Emacs]], plus [[https://truongtx.me/2014/03/10/emacs-setup-jsx-mode-and-jsx-syntax-checking][JSX setup with web-mode]]
+
+* Questions
+
+U done yet?!? :cat:
+
+* Finis
+
+Thanks! :kiss:
