@@ -28,7 +28,7 @@
         (when (fboundp mode) (funcall mode -1)))
       '(menu-bar-mode tool-bar-mode scroll-bar-mode))
 
-(blink-cursor-mode -1)		        ; Stop blinking the cursor/point
+(blink-cursor-mode -1)                  ; Stop blinking the cursor/point
 (setq load-prefer-newer t)              ; Always load newer elisp
 (setq enable-local-eval t)              ; Tell Emacs to obey variables
                                         ; set by the files it reads
@@ -96,7 +96,7 @@
                                         ; from adding a new line to that
                                         ; buffer
 
-(setq search-whitespace-regexp ".*?")	; match anything (non-greedy)
+(setq search-whitespace-regexp ".*?")   ; match anything (non-greedy)
 
 (setq auto-save-timeout 15              ; Auto-save after 15 sec of
                                         ; idleness
@@ -161,7 +161,7 @@
 (use-package smex
   :ensure t
   :bind (("M-x" . smex)
-	 ("M-X" . smex-major-mode-commands))
+         ("M-X" . smex-major-mode-commands))
   :config
   (smex-initialize))
 
@@ -218,9 +218,9 @@
   :config
   (defadvice term-sentinel (around ansi-term-kill-buffer (proc msg))
     (if (memq (process-status proc) '(signal exit))
-	(let ((buffer (process-buffer proc)))
-	  ad-do-it
-	  (kill-buffer buffer))
+        (let ((buffer (process-buffer proc)))
+          ad-do-it
+          (kill-buffer buffer))
       ad-do-it))
   (ad-activate 'term-sentinel)
   (defadvice ansi-term (before ansi-term-force-shell)
@@ -228,8 +228,8 @@
   (ad-activate 'ansi-term)
   (add-hook 'term-mode-hook 'goto-address-mode)
   (add-hook 'term-exec-hook
-	    '(lambda ()
-	       (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
+            '(lambda ()
+               (set-buffer-process-coding-system 'utf-8-unix 'utf-8-unix))))
 
 ;; Eshell tweaks
 (use-package eshell
@@ -260,8 +260,8 @@
 (defun zakame/split-window-prefer-side-by-side (window)
   "Split WINDOW, preferably side by side."
   (let ((split-height-threshold (and (< (window-width window)
-				      split-width-threshold)
-				   split-height-threshold)))
+                                      split-width-threshold)
+                                   split-height-threshold)))
     (split-window-sensibly window)))
 (setq split-window-preferred-function
       #'zakame/split-window-prefer-side-by-side)
@@ -409,9 +409,9 @@
   :ensure t
   :config
   (add-hook 'after-make-frame-functions
-	    (lambda (frame)
-	      (with-selected-frame frame
-		(load-theme 'plan9 t)))))
+            (lambda (frame)
+              (with-selected-frame frame
+                (load-theme 'plan9 t)))))
 
 ;; Emojis! :+1:
 (use-package emojify
