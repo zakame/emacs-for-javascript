@@ -437,8 +437,11 @@
 (use-package fireplace
   :ensure t
   :config
-  (delete-other-windows)
-  (fireplace t))
+  (add-hook 'after-init-hook
+            '(lambda ()
+               (delete-other-windows)
+               (fireplace t))))
+
 
 (provide 'init)
 
