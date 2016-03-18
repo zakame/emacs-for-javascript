@@ -301,8 +301,6 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
     '(bind-key "C-c C-d" 'ng-snip-show-docs-at-point web-mode-map)))
 #+END_SRC
 
-#+RESULTS:
-
 ** projectile
 
 #+BEGIN_SRC emacs-lisp
