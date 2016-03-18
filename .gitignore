@@ -15,3 +15,4 @@
 /.zshrc
 /README.el
 /.emacs.d/auto-save-list/
+/.emacs.d/ido.last
