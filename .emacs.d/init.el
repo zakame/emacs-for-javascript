@@ -440,8 +440,9 @@
   :config
   (add-hook 'after-init-hook
             '(lambda ()
-               (delete-other-windows)
-               (fireplace t))))
+               (unless (daemonp)
+                 (delete-other-windows)
+                 (fireplace t)))))
 
 
 (provide 'init)
