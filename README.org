@@ -34,7 +34,7 @@ This is also an Emacs init file! :peace:
 
 #+BEGIN_SRC sh
 # clone to somewhere
-git clone https://github.com/zakame/emacs-for-javascript.git
+git clone --recursive https://github.com/zakame/emacs-for-javascript.git
 
 # run Emacs using this repo as a fake $HOME
 HOME=./emacs-for-javascript /usr/bin/emacs
