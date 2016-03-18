@@ -339,6 +339,7 @@
 
 (use-package org
   :ensure t
+  :functions org-babel-load-file
   :mode ("\\.\\(org\\|org_archive\\)$" . org-mode)
   :bind (("\C-cl" . org-store-link)
          ("\C-cc" . org-capture)
