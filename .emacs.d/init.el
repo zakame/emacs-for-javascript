@@ -203,12 +203,12 @@
 
 ;; recentf tweaks
 (use-package recentf
+  :bind (("C-c f" . zakame/ido-recentf-open))
   :config
   (defun zakame/ido-recentf-open ()
     "Use `ido-completing-read' to find a recent file."
     (interactive)
     (find-file (ido-completing-read "Find recent file: " recentf-list nil t)))
-  (bind-key "C-c f" 'zakame/ido-recentf-open)
   (recentf-mode)
   (setq recentf-exclude '("TAGS" ".*-autoloads\\.el\\'")))
 
