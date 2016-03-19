@@ -322,6 +322,10 @@
   (add-hook 'text-mode-hook #'visual-line-mode)
   (add-hook 'text-mode-hook #'adaptive-wrap-prefix-mode))
 
+;; pos-tip
+(use-package pos-tip
+  :ensure t)
+
 ;; Enable ElDoc for automatic documentation of elisp functions
 (dolist (hook
          '(emacs-lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook))
