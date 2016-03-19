@@ -399,7 +399,9 @@
 ;;; JavaScript and other modes for this talk is all in the slides!
 
 (package-initialize nil)
-(org-babel-load-file "~/README.org")
+(if (file-newer-than-file-p "~/README.org" "~/README.el")
+    (org-babel-load-file "~/README.org" t)
+  (load "~/README"))
 
 
 ;;; Misc

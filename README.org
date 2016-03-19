@@ -80,6 +80,7 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
 #+BEGIN_SRC emacs-lisp
 (use-package magit
   :ensure t
+  :defines magit-mode-map
   :bind (("C-c g" . magit-status)
          ("M-g b" . magit-blame)
          :map magit-mode-map
@@ -184,8 +185,8 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
 (use-package json-snatcher
   :ensure t
   :after js2-mode
-  :bind (:map js2-mode-map
-              ("C-c C-g" . jsons-print-path)))
+  :config
+  (bind-key "C-c C-g" 'jsons-print-path js2-mode-map))
 #+END_SRC
 
 ** web-beautify
@@ -195,8 +196,8 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
 (use-package web-beautify
   :after js2-mode
   :ensure t
-  :bind (:map js2-mode-map
-              ("C-c C-b" . web-beautify-js)))
+  :config
+  (bind-key "C-c C-b" 'web-beautify-js js2-mode-map))
 #+END_SRC
 
 ** tern (with auto-complete)
