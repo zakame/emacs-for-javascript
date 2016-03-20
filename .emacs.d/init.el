@@ -61,6 +61,7 @@
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
+(bind-key "C-x c @" 'list-packages)
 
 
 ;;; Editing/Programming
