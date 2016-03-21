@@ -32,6 +32,8 @@ This doc is on GitHub!
 
 This is also an Emacs init file! :peace:
 
+Should work on GNU Emacs 24.1 and up :+1:
+
 #+BEGIN_SRC sh
 # clone to somewhere
 git clone --recursive https://github.com/zakame/emacs-for-javascript.git
