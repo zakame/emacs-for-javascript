@@ -147,7 +147,8 @@
   :ensure t
   :config
   (ido-vertical-mode 1)
-  (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+  (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+        ido-vertical-show-count t))
 
 ;; idomenu
 (use-package idomenu
