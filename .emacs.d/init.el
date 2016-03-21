@@ -328,6 +328,11 @@
 (use-package pos-tip
   :ensure t)
 
+;; use the_silver_searcher when available
+(use-package ag
+  :ensure t
+  :if (executable-find "ag"))
+
 ;; Enable ElDoc for automatic documentation of elisp functions
 (dolist (hook
          '(emacs-lisp-mode-hook lisp-interaction-mode-hook ielm-mode-hook))
