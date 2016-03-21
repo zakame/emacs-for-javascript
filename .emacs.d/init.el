@@ -443,6 +443,7 @@
 (use-package nyan-mode
   :ensure t
   :config
+  (setq nyan-bar-length 16)
   (nyan-mode 1))
 
 ;; zone out with Nyan cat when idle after 2 minutes :3
