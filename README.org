@@ -135,12 +135,33 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
 (use-package js2-mode
   :ensure t
   :interpreter (("node" . js2-mode))
+  :bind (("C-c C-p" . js2-print-json-path))
   :mode "\\.\\(js\\|json\\)$"
   :config
   (add-hook 'js-mode-hook 'js2-minor-mode)
   (setq js2-highlight-level 3
         js2-mode-show-parse-errors nil
         js2-mode-show-strict-warnings nil))
+#+END_SRC
+
+- [[https://plus.google.com/u/0/112708775709583792684/posts/7pqnEkH6XYZ][Bin Chen from Google+]] says theres a =js2-print-json-path= command in
+  the latest =js2-mode= for printing path of a an object under point,
+  saving it also in the kill ring.  Contrast with =json-snatcher= below.
+
+#+BEGIN_SRC js
+var v = {
+  foo: "bar",
+  baz: "quuz",
+  xxx: {
+    aaa: "bbb",
+    ccc: {
+      ddd: "yyy"
+    }
+  }
+};
+
+// when point is under `yyy`, js2-print-json-path will save
+// `xxx.ccc.ddd` in the kill ring
 #+END_SRC
 
 ** js2-refactor
@@ -188,6 +209,9 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
   :config
   (bind-key "C-c C-g" 'jsons-print-path js2-mode-map))
 #+END_SRC
+
+- works primarily in =JSON= buffers, contrast with
+  =js2-print-json-path= in actual JavaScript code.
 
 ** web-beautify
 
