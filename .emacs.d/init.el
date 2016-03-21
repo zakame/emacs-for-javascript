@@ -422,14 +422,14 @@
 
 ;;; Misc
 
-;; Plan9 theme (I <3 Acme)
-(use-package plan9-theme
+;; Zenburn theme (for cool coding for the eyes)
+(use-package zenburn-theme
   :ensure t
   :config
   (add-hook 'after-make-frame-functions
             (lambda (frame)
               (with-selected-frame frame
-                (load-theme 'plan9 t)))))
+                (load-theme 'zenburn t)))))
 
 ;; Emojis! :+1:
 (use-package emojify
