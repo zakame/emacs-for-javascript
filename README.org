@@ -335,6 +335,7 @@ var v = {
   :diminish projectile-mode
   :ensure t
   :config
+  (setq projectile-switch-project-action 'projectile-dired)
   (projectile-global-mode))
 #+END_SRC
 
