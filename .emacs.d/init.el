@@ -298,6 +298,8 @@
   (global-diff-hl-mode)
   (setq diff-hl-side 'left)
   (diff-hl-margin-mode)
+  (unless (version<= emacs-version "24.4")
+    (diff-hl-flydiff-mode))
   (eval-after-load "magit"
     '(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)))
 
