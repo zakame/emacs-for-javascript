@@ -347,66 +347,10 @@
 ;; Always indent using spaces, no tabs
 (setq-default indent-tabs-mode nil)
 
-
-;;; Org-mode
-
-(use-package org
-  :ensure t
-  :functions org-babel-load-file
-  :mode ("\\.\\(org\\|org_archive\\)$" . org-mode)
-  :bind (("\C-cl" . org-store-link)
-         ("\C-cc" . org-capture)
-         ("\C-ca" . org-agenda)
-         ("\C-cb" . org-iswitchb))
-  :config
-  ;; make windmove work well with org-mode
-  (add-hook 'org-shiftup-final-hook 'windmove-up)
-  (add-hook 'org-shiftleft-final-hook 'windmove-left)
-  (add-hook 'org-shiftdown-final-hook 'windmove-down)
-  (add-hook 'org-shiftright-final-hook 'windmove-right)
-  ;; add some langs to to babel
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((js . t)
-     (sh . t)))
-  ;; other org tweaks
-  (setq org-ellipsis "▼"
-        org-src-fontify-natively t
-        org-src-preserve-indentation nil
-        org-edit-src-content-indentation 0))
-
-(use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-;; ob-http (REST client)
-(use-package ob-http
-  :after org
-  :ensure t
-  :config
-  (add-to-list 'org-babel-load-languages '(http . t))
-  (org-babel-do-load-languages
-   'org-babel-load-languages org-babel-load-languages))
-
 ;; htmlize
 (use-package htmlize
   :defer t
   :ensure t)
-
-;; org-present (for meetups)
-(use-package org-present
-  :bind (("C-c m" . org-present))
-  :ensure t
-  :config
-  (add-hook 'org-present-mode-hook
-            (lambda ()
-              (org-present-big)
-              (org-display-inline-images)))
-  (add-hook 'org-present-mode-quit-hook
-            (lambda ()
-              (org-present-small)
-              (org-remove-inline-images))))
 
 
 ;;; JavaScript and other modes for this talk is all in the slides!

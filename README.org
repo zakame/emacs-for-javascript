@@ -75,6 +75,89 @@ console.log(os.platform());
 - Great for [[https://github.com/limist/literate-programming-examples][Literate Programming]]!
   + Bonus: [[http://www.howardism.org/Technical/Emacs/literate-devops.html][Literate DevOps]]!
 
+** org core
+
+#+BEGIN_SRC emacs-lisp
+(use-package org
+  :ensure t
+  :functions org-babel-load-file
+  :mode ("\\.\\(org\\|org_archive\\)$" . org-mode)
+  :bind (("\C-cl" . org-store-link)
+         ("\C-cc" . org-capture)
+         ("\C-ca" . org-agenda)
+         ("\C-cb" . org-iswitchb))
+  :config
+  ;; make windmove work well with org-mode
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right)
+  ;; add some langs to to babel
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((js . t)
+     (sh . t)))
+  ;; other org tweaks
+  (setq org-ellipsis "▼"
+        org-src-fontify-natively t
+        org-src-preserve-indentation nil
+        org-edit-src-content-indentation 0))
+#+END_SRC
+
+** org-bullets
+
+Fancy list bullets instead of asterisks
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
+** ob-http 
+
+aka curl in Org!
+
+#+BEGIN_SRC http :pretty
+GET https://api.github.com/repos/zakame/emacs-for-javascript/languages
+Accept: application/vnd.github.moondragon+json
+#+END_SRC
+
+#+RESULTS:
+: {
+:   "Emacs Lisp": 14185
+: }
+
+#+BEGIN_SRC emacs-lisp
+(use-package ob-http
+  :after org
+  :ensure t
+  :config
+  (add-to-list 'org-babel-load-languages '(http . t))
+  (org-babel-do-load-languages
+   'org-babel-load-languages org-babel-load-languages))
+#+END_SRC
+
+** org-present
+
+Turn your Org outline into slides for meetups!
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-present
+  :bind (("C-c m" . org-present))
+  :ensure t
+  :config
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (org-present-big)
+              (org-display-inline-images)))
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (org-present-small)
+              (org-remove-inline-images))))
+#+END_SRC
+
 * Magit
 
 The best porcelain for git! [[http://magit.vc]] :ok_hand:
