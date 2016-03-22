@@ -124,10 +124,12 @@ GET https://api.github.com/repos/zakame/emacs-for-javascript/languages
 Accept: application/vnd.github.moondragon+json
 #+END_SRC
 
+#+BEGIN_EXAMPLE
 #+RESULTS:
 : {
 :   "Emacs Lisp": 14185
 : }
+#+END_EXAMPLE
 
 #+BEGIN_SRC emacs-lisp
 (use-package ob-http
