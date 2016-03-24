@@ -48,8 +48,8 @@
 
 ;; package.el
 (require 'package)
-(add-to-list 'package-archives
-       '("melpa" . "https://melpa.org/packages/"))
+(nconc package-archives
+       '(("melpa" . "https://melpa.org/packages/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
 
