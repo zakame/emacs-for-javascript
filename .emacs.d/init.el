@@ -20,6 +20,9 @@
 
 ;;; General setup
 
+;; High GC threshold for Emacs
+(setq gc-cons-threshold 20000000)
+
 ;; Enable mouse wheel support
 (if (fboundp 'mwheel-install) (mwheel-install))
 
