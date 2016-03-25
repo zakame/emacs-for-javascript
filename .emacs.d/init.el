@@ -382,9 +382,9 @@
   :ensure t
   :config
   (add-hook 'after-make-frame-functions
-            (lambda (frame)
-              (with-selected-frame frame
-                (load-theme 'zenburn t)))))
+            '(lambda (frame)
+               (with-selected-frame frame
+                 (load-theme 'zenburn t)))))
 
 ;; Emojis! :+1:
 (use-package emojify
