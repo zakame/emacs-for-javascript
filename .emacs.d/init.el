@@ -95,10 +95,6 @@
 (temp-buffer-resize-mode 1)             ; Temporary windows should not
                                         ; get into our way
 (auto-compression-mode 1)               ; Load Auto-(De)Compression Mode
-(setq next-line-add-newlines nil)         ; This disables down-arrow and
-                                        ; C-n at the end of a buffer
-                                        ; from adding a new line to that
-                                        ; buffer
 
 (setq search-whitespace-regexp ".*?")   ; match anything (non-greedy)
 
