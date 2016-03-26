@@ -17,3 +17,4 @@
 /.emacs.d/auto-save-list/
 /.emacs.d/ido.last
 /README.elc
+/.emacs.d/quelpa/

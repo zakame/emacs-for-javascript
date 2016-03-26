@@ -66,6 +66,11 @@
 (require 'bind-key)
 (bind-key "C-x c @" 'list-packages)
 
+;; quelpa helper for use-package
+(use-package quelpa-use-package
+  :ensure t
+  :config
+  (setq quelpa-checkout-melpa-p nil))
 
 ;;; Editing/Programming
 
