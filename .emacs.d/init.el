@@ -161,7 +161,7 @@
 
 ;; ido-other-window
 (use-package ido-other-window
-  :load-path "site-lisp/ido-other-window")
+  :quelpa (ido-other-window :fetcher github :repo "zakame/ido-other-window"))
 
 ;; smex
 (use-package smex
