@@ -222,7 +222,7 @@ The best porcelain for git! [[http://magit.vc]] :ok_hand:
 (use-package js2-mode
   :ensure t
   :interpreter (("node" . js2-mode))
-  :bind (("C-c C-p" . js2-print-json-path))
+  :bind (:map js2-mode-map ("C-c C-p" . js2-print-json-path))
   :mode "\\.\\(js\\|json\\)$"
   :config
   (add-hook 'js-mode-hook 'js2-minor-mode)
