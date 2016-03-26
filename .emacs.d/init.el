@@ -359,7 +359,6 @@
 
 ;;; JavaScript and other modes for this talk is all in the slides!
 
-(package-initialize nil)
 (with-temp-buffer
   (insert-file-contents "~/README.org")
   (goto-char (point-min))
@@ -370,6 +369,7 @@
      ((looking-at
        (format "\\*\\{2,%s\\} +.*$" 2))
       (message "%s" (match-string 0)))
+     ;; Evaluate elisp configuration src blocks
      ((looking-at "^#\\+BEGIN_SRC +emacs-lisp *$")
       (let ((l (match-end 0)))
         (search-forward "\n#+END_SRC")
