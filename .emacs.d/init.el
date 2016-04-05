@@ -312,7 +312,10 @@
   :diminish aggressive-indent-mode
   :ensure t
   :config
-  (add-to-list 'aggressive-indent-excluded-modes 'jade-mode)
+  (mapc
+   (lambda (mode)
+     (add-to-list 'aggressive-indent-excluded-modes mode))
+   '(jade-mode web-mode html-mode))
   (global-aggressive-indent-mode 1))
 
 ;; which-key-mode
