@@ -359,6 +359,11 @@
   :defer t
   :ensure t)
 
+;; swiper
+(use-package swiper
+  :ensure t
+  :bind ("C-s" . swiper))
+
 
 ;;; JavaScript and other modes for this talk is all in the slides!
 
