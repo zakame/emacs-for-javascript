@@ -305,7 +305,7 @@
   (unless (version<= emacs-version "24.4")
     (diff-hl-flydiff-mode))
   (eval-after-load "org"
-    '(add-hook 'org-mode-hook (lambda () (diff-hl-update))))
+    '(add-hook 'org-mode-hook (lambda () (diff-hl-mode))))
   (eval-after-load "magit"
     '(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)))
 
