@@ -201,8 +201,8 @@
 
 ;; dired-x
 (add-hook 'dired-load-hook
-          (lambda ()
-            (load "dired-x")))
+          '(lambda ()
+             (load "dired-x")))
 
 ;; set human-readable sizes in dired
 (setq dired-listing-switches "-alh")
@@ -259,8 +259,8 @@
         eshell-review-quick-commands nil
         eshell-smart-space-goes-to-end t)
   (add-hook 'eshell-mode-hook
-            (lambda ()
-              (eshell-smart-initialize))))
+            '(lambda ()
+               (eshell-smart-initialize))))
 
 ;; make window splits much smarter especially when on widescreen
 (defun zakame/split-window-prefer-side-by-side (window)
