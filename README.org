@@ -477,6 +477,14 @@ var v = {
       '(jade-mode scss-mode sass-mode))
 #+END_SRC
 
+** markdown-mode
+
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :mode "\\.md\\'")
+#+END_SRC
+
 * Even more Emacs goodness
 
 Be sure to check out the [[./.emacs.d/init.el]] for more!
