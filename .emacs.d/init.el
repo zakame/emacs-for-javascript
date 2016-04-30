@@ -174,6 +174,8 @@
 ;; Save point position between editing sessions
 (use-package saveplace
   :config
+  (unless (version< emacs-version "25")
+    (save-place-mode 1))
   (setq-default save-place t
                 save-place-file (expand-file-name ".places"
                                                   user-emacs-directory)))
