@@ -401,7 +401,7 @@
 (use-package emojify
   :ensure t
   :config
-  (unless (file-exists-p emojify-image-dir)
+  (unless (file-exists-p (emojify-image-dir))
     (emojify-download-emoji emojify-emoji-set))
   (add-hook 'after-init-hook #'global-emojify-mode))
 
