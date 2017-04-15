@@ -61,6 +61,7 @@
 (eval-when-compile
   (eval-after-load 'advice
     `(setq ad-redefinition-action 'accept))
+  (setq use-package-enable-imenu-support t)
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
@@ -115,12 +116,12 @@
       compilation-ask-about-save nil)
 
 ;; Use imenu to browse use-package blocks
-(defun zakame/imenu-use-package ()
-  "Extract use-package lines to be used as anchors in imenu."
-  (add-to-list 'imenu-generic-expression
-               '(nil
-                 "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
-(add-hook 'emacs-lisp-mode-hook #'zakame/imenu-use-package)
+;; (defun zakame/imenu-use-package ()
+;;   "Extract use-package lines to be used as anchors in imenu."
+;;   (add-to-list 'imenu-generic-expression
+;;                '(nil
+;;                  "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
+;; (add-hook 'emacs-lisp-mode-hook #'zakame/imenu-use-package)
 
 ;; ido-mode
 (use-package ido
